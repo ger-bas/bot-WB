@@ -2,11 +2,11 @@
 Telegram bot for working with the Wildberries platform.
 
 ### Technologies
-Python      3.10.12
-Aiogram     3.4.1
-psycopg2    2.9.9
-SQLAlchemy  2.0.28
-PostgreSQL  14.11
+- Python      3.10.12
+- Aiogram     3.4.1
+- psycopg2    2.9.9
+- SQLAlchemy  2.0.28
+- PostgreSQL  14.11
 
 ### Deployment
 While in the root folder of the project, run the command
