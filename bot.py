@@ -1,17 +1,15 @@
 import asyncio
-# import logging
-# import sys
 from os import getenv
 
 from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import Command
-from aiogram.utils.markdown import hbold
 from dotenv import load_dotenv
 
 from bot_buttons.buttons import keyboard
 from bot_buttons.buttons_inline import kb_sub, kb_unsub
-from data_base.use_db import (get_or_add_product, last_five_entries,
-                              parse_object)
+from bot_utils import check_subscribe, find_article
+from config_logger import logging
+from data_base.use_db import get_or_add_product, last_five_entries
 
 load_dotenv()
 token = getenv("BOT_TOKEN")
@@ -22,7 +20,8 @@ time_out = 60 * 5
 
 @dp.message(Command('start'))
 async def command_start_handler(message: types.Message) -> None:
-    hello = f'Hello, {hbold(message.from_user.full_name)}!\n'
+    """Reaction to the "/start" command."""
+    hello = f'Hello, {message.from_user.full_name}!\n'
     hello_message = ('Пришли мне артикул товара с площадки Wildberries '
                      'и я покажу тебе информацию о нём.')
     await message.answer(hello + hello_message, reply_markup=keyboard)
@@ -30,6 +29,7 @@ async def command_start_handler(message: types.Message) -> None:
 
 @dp.message(F.text.lower() == 'получить информацию из бд')
 async def get_last_five_entries(message: types.Message) -> None:
+    """Button response <получить информацию из БД>"""
     task = check_subscribe(str(message.chat.id))
     for product in last_five_entries():
         if task:
@@ -38,12 +38,8 @@ async def get_last_five_entries(message: types.Message) -> None:
             await message.answer(product, reply_markup=kb_sub)
 
 
-def check_subscribe(tack_name: str) -> object | None:
-    tasks = [t for t in asyncio.all_tasks() if t.get_name() == tack_name]
-    return tasks[0] if tasks else None
-
-
 async def subscribe_process(message: types.Message) -> None:
+    """Periodic sending of messages."""
     text_up = (
         'Вы подписались на получение уведомлений со следущим текстом:\n\n'
     )
@@ -61,6 +57,7 @@ async def subscribe_process(message: types.Message) -> None:
 
 @dp.callback_query(F.data == 'subscribe_unsubscribe')
 async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
+    """Implements subscribe/unsubscribe functionality."""
     chat_id = str(callback.message.chat.id)
     button_text = callback.message.reply_markup.inline_keyboard[0][0].text
     task = check_subscribe(chat_id)
@@ -71,12 +68,21 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
         else:
             await callback.answer('Подписка активирована')
             task = asyncio.create_task(
-                subscribe_process(callback.message),
-                name=chat_id
+                subscribe_process(callback.message), name=chat_id,
             )
+            logging.info({'activate': {
+                'user': chat_id,
+                'vendor_code': find_article(callback.message.text),
+                }
+            })
             await asyncio.sleep(0.1)
     if button_text == 'Остановить уведомления':
         if task:
+            logging.info({'deactivate': {
+                'user': chat_id,
+                'vendor_code': find_article(callback.message.text),
+                }
+            })
             task.cancel()
             await callback.answer('Подписка отключена')
         else:
@@ -85,6 +91,7 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
 
 @dp.message()
 async def my_handler(message: types.Message) -> None:
+    """Reply to any message sent."""
     try:
         if len(message.text) > 20:
             await message.answer('Не более 20 символов')
@@ -96,18 +103,18 @@ async def my_handler(message: types.Message) -> None:
             if product:
                 task = check_subscribe(chat_id)
                 if task:
-                    await message.answer(parse_object(product))
+                    await message.answer(product)
                 else:
                     await message.answer(
-                        parse_object(product),
+                        product,
                         reply_markup=kb_sub
                     )
             else:
                 await message.answer(
-                    'Информация отсутствует, проверь артикул.'
+                    'Информация отсутствует, проверьте артикул.'
                 )
     except Exception as e:
-        await message.answer(e)
+        logging.error(e)
 
 
 async def main() -> None:
@@ -116,5 +123,6 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    # logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    logging
+    print('bot run...')
     asyncio.run(main())

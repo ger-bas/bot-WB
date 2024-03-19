@@ -19,25 +19,25 @@ engine = create_engine(
 class User(Base):
     __tablename__ = 'User'
 
-    id = Column(Integer, primary_key=True)  # Первичный ключ.
-    tg_id = Column(Integer, nullable=False)  # Telegram account id.
+    id = Column(Integer, primary_key=True)
+    tg_id = Column(Integer, nullable=False)
     product = relationship('Product')
 
     def __repr__(self) -> str:
         return f'({self.id}, {self.tg_id})'
 
 
-class Product(Base):  # Товар
+class Product(Base):
     __tablename__ = 'Product'
 
-    id = Column(Integer, primary_key=True)  # Первичный ключ.
-    name = Column(String(250), nullable=False)  # Название.
-    vendor_code = Column(String(20), nullable=False)  # Артикул.
-    price = Column(Float, nullable=False)  # Цена.
-    rating = Column(Float, nullable=False)  # Рейтинг.
-    quantity = Column(Integer, nullable=False)  # Количество(на всех складах).
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    vendor_code = Column(String(20), nullable=False)
+    price = Column(Float, nullable=False)
+    rating = Column(Float, nullable=False)
+    quantity = Column(Integer, nullable=False)
 
-    user_id = Column(Integer, ForeignKey('User.id'))  # Связь с user.
+    user_id = Column(Integer, ForeignKey('User.id'))
 
     def __repr__(self) -> str:
         return f'({self.id}, {self.name})'
