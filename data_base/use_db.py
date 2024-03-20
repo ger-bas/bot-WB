@@ -51,17 +51,15 @@ def get_or_add_product(vendor_code: str, tg_user_id: int) -> str:
 def last_five_entries() -> list[str]:
     """Retrieves the last 5 records from the database."""
     data = s.query(Product).all()[-5:]
-    result = [parse_object(i) for i in data]
-    return result
+    return [parse_object(i) for i in data]
 
 
-def parse_object(_object: object) -> str:
+def parse_object(obj: Product) -> str:
     """Creates a row with product data from an object."""
-    ordered_object = (
-        f'Название:   {_object.name}\n'
-        f'Артикул:   {_object.vendor_code}\n'
-        f'Цена:   {_object.price}\n'
-        f'Рейтинг:   {_object.rating}\n'
-        f'Количество:   {_object.quantity}'
+    return (
+        f'Название:   {obj.name}\n'
+        f'Артикул:   {obj.vendor_code}\n'
+        f'Цена:   {obj.price}\n'
+        f'Рейтинг:   {obj.rating}\n'
+        f'Количество:   {obj.quantity}'
     )
-    return ordered_object

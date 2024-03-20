@@ -14,7 +14,6 @@ from data_base.use_db import get_or_add_product, last_five_entries
 load_dotenv()
 token = getenv("BOT_TOKEN")
 dp = Dispatcher()
-task = None
 time_out = 60 * 5
 
 
@@ -67,7 +66,7 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
             await callback.answer('Доступна только одна подписка')
         else:
             await callback.answer('Подписка активирована')
-            task = asyncio.create_task(
+            asyncio.create_task(
                 subscribe_process(callback.message), name=chat_id,
             )
             logging.info({'activate': {
@@ -78,12 +77,12 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
             await asyncio.sleep(0.1)
     if button_text == 'Остановить уведомления':
         if task:
+            task.cancel()
             logging.info({'deactivate': {
                 'user': chat_id,
                 'vendor_code': find_article(callback.message.text),
                 }
             })
-            task.cancel()
             await callback.answer('Подписка отключена')
         else:
             await callback.answer('Нет активных подписок')
@@ -105,16 +104,13 @@ async def my_handler(message: types.Message) -> None:
                 if task:
                     await message.answer(product)
                 else:
-                    await message.answer(
-                        product,
-                        reply_markup=kb_sub
-                    )
+                    await message.answer(product, reply_markup=kb_sub)
             else:
                 await message.answer(
                     'Информация отсутствует, проверьте артикул.'
                 )
     except Exception as e:
-        logging.error(e)
+        logging.exception(e)
 
 
 async def main() -> None:
