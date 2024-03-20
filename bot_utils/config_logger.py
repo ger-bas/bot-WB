@@ -6,7 +6,7 @@ handler = TimedRotatingFileHandler(
 )
 
 logging.basicConfig(
-    level=logging.ERROR,
+    level=logging.INFO,
     format='%(asctime)s %(levelname)s %(message)s',
     handlers=[handler]
 )
