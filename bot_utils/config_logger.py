@@ -1,7 +1,9 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-handler = TimedRotatingFileHandler('bot_log.log', when='d', interval=1)
+handler = TimedRotatingFileHandler(
+    'logs/bot.log', when='d', interval=1, backupCount=9
+)
 
 logging.basicConfig(
     level=logging.INFO,

@@ -9,7 +9,7 @@ def check_subscribe(tack_name: str) -> object | None:
     return
 
 
-def find_article(text: str) -> str:
+def find_vendor_code(text: str) -> str:
     """Search for "vendor_code" in the message."""
     sub_str = 'Артикул:   '
     index1 = text.find(sub_str, 0) + len(sub_str)

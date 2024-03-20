@@ -5,10 +5,10 @@ from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import Command
 from dotenv import load_dotenv
 
-from bot_buttons.buttons import keyboard
-from bot_buttons.buttons_inline import kb_sub, kb_unsub
-from bot_utils import check_subscribe, find_article
-from config_logger import logging
+from bot_utils.buttons import keyboard
+from bot_utils.buttons_inline import kb_sub, kb_unsub
+from bot_utils.secondary_funcs import check_subscribe, find_vendor_code
+from bot_utils.config_logger import logging
 from data_base.use_db import get_or_add_product, last_five_entries
 
 load_dotenv()
@@ -71,7 +71,7 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
             )
             logging.info({'activate': {
                 'user': chat_id,
-                'vendor_code': find_article(callback.message.text),
+                'vendor_code': find_vendor_code(callback.message.text),
                 }
             })
             await asyncio.sleep(0.1)
@@ -80,7 +80,7 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
             task.cancel()
             logging.info({'deactivate': {
                 'user': chat_id,
-                'vendor_code': find_article(callback.message.text),
+                'vendor_code': find_vendor_code(callback.message.text),
                 }
             })
             await callback.answer('Подписка отключена')
