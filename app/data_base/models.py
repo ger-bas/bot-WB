@@ -1,17 +1,18 @@
-from os import getenv
+from os import environ  # , getenv
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from sqlalchemy import (Column, Float, ForeignKey, Integer, String,
                         create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-load_dotenv()
-LOGIN = getenv('PS_LOGIN')
-PASSWORD = getenv('PS_PASSWORD')
+# load_dotenv()
+POSTGRES_LOGIN = environ['POSTGRES_LOGIN']  # getenv('PS_LOGIN')
+POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']  # getenv('PS_PASSWORD')
 Base = declarative_base()
 engine = create_engine(
-    f'postgresql+psycopg2://{LOGIN}:{PASSWORD}@localhost/postgres',
+    f'postgresql+psycopg2://{POSTGRES_LOGIN}:{POSTGRES_PASSWORD}'
+    '@localhost/postgres',
     # echo=True
 )
 

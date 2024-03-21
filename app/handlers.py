@@ -1,18 +1,17 @@
 import asyncio
-from os import getenv
+# from os import environ
 
-from aiogram import Bot, Dispatcher, F, types
+# from aiogram import Bot, Dispatcher, F, types
+from aiogram import Dispatcher, F, types
 from aiogram.filters import Command
-from dotenv import load_dotenv
 
 from bot_utils.buttons import keyboard
 from bot_utils.buttons_inline import kb_sub, kb_unsub
-from bot_utils.secondary_funcs import check_subscribe, find_vendor_code
 from bot_utils.config_logger import logging
+from bot_utils.secondary_funcs import check_subscribe, find_vendor_code
 from data_base.use_db import get_or_add_product, last_five_entries
 
-load_dotenv()
-token = getenv("BOT_TOKEN")
+# BOT_TOKEN = environ["BOT_TOKEN"]
 dp = Dispatcher()
 time_out = 60 * 5
 
@@ -113,12 +112,12 @@ async def my_handler(message: types.Message) -> None:
         logging.exception(e)
 
 
-async def main() -> None:
-    bot = Bot(token)
-    await dp.start_polling(bot)
+# async def main() -> None:
+#     bot = Bot(BOT_TOKEN)
+#     await dp.start_polling(bot)
 
 
-if __name__ == "__main__":
-    logging
-    print('bot run...')
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     logging
+#     print('bot run...')
+#     asyncio.run(main())
