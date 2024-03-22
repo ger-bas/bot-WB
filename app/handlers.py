@@ -1,19 +1,17 @@
 import asyncio
-# from os import environ
 
-# from aiogram import Bot, Dispatcher, F, types
 from aiogram import Dispatcher, F, types
 from aiogram.filters import Command
 
-from bot_utils.buttons import keyboard
-from bot_utils.buttons_inline import kb_sub, kb_unsub
-from bot_utils.config_logger import logging
-from bot_utils.secondary_funcs import check_subscribe, find_vendor_code
-from data_base.use_db import get_or_add_product, last_five_entries
+from app.bot_utils.buttons import keyboard
+from app.bot_utils.buttons_inline import kb_sub, kb_unsub
+# from bot_utils.config_logger import logging
+from app.bot_utils.secondary_funcs import check_subscribe  # , find_vendor_code
+from app.data_base.use_db import get_or_add_product, last_five_entries
 
-# BOT_TOKEN = environ["BOT_TOKEN"]
 dp = Dispatcher()
 time_out = 60 * 5
+time_out = 5
 
 
 @dp.message(Command('start'))
@@ -68,20 +66,20 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
             asyncio.create_task(
                 subscribe_process(callback.message), name=chat_id,
             )
-            logging.info({'activate': {
-                'user': chat_id,
-                'vendor_code': find_vendor_code(callback.message.text),
-                }
-            })
+            # logging.info({'activate': {
+            #     'user': chat_id,
+            #     'vendor_code': find_vendor_code(callback.message.text),
+            #     }
+            # })
             await asyncio.sleep(0.1)
     if button_text == 'Остановить уведомления':
         if task:
             task.cancel()
-            logging.info({'deactivate': {
-                'user': chat_id,
-                'vendor_code': find_vendor_code(callback.message.text),
-                }
-            })
+            # logging.info({'deactivate': {
+            #     'user': chat_id,
+            #     'vendor_code': find_vendor_code(callback.message.text),
+            #     }
+            # })
             await callback.answer('Подписка отключена')
         else:
             await callback.answer('Нет активных подписок')
@@ -109,15 +107,6 @@ async def my_handler(message: types.Message) -> None:
                     'Информация отсутствует, проверьте артикул.'
                 )
     except Exception as e:
-        logging.exception(e)
-
-
-# async def main() -> None:
-#     bot = Bot(BOT_TOKEN)
-#     await dp.start_polling(bot)
-
-
-# if __name__ == "__main__":
-#     logging
-#     print('bot run...')
-#     asyncio.run(main())
+        # logging.exception(e)
+        print('ОШИБКА')
+        print(e)

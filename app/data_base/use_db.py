@@ -1,8 +1,8 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 
-from .get_wb import get_product_wb
-from .models import Product, User, engine
+from app.data_base.get_wb import get_product_wb
+from app.data_base.models import Product, User, engine
 
 session = sessionmaker(bind=engine)
 s = session()

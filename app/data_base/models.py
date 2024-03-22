@@ -1,18 +1,16 @@
-from os import environ  # , getenv
+from os import environ
 
-# from dotenv import load_dotenv
 from sqlalchemy import (Column, Float, ForeignKey, Integer, String,
                         create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-# load_dotenv()
-POSTGRES_LOGIN = environ['POSTGRES_LOGIN']  # getenv('PS_LOGIN')
-POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']  # getenv('PS_PASSWORD')
+POSTGRES_LOGIN = environ['POSTGRES_LOGIN']
+POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']
 Base = declarative_base()
 engine = create_engine(
     f'postgresql+psycopg2://{POSTGRES_LOGIN}:{POSTGRES_PASSWORD}'
-    '@localhost/postgres',
+    '@postgres:5432/postgres',
     # echo=True
 )
 
@@ -37,6 +35,7 @@ class Product(Base):
     price = Column(Float, nullable=False)
     rating = Column(Float, nullable=False)
     quantity = Column(Integer, nullable=False)
+    # date_update = ...
 
     user_id = Column(Integer, ForeignKey('User.id'))
 
