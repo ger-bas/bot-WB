@@ -1,8 +1,12 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
+from pathlib import Path
+
+log_name = 'logs/bot.log'
+Path(log_name).parent.mkdir(parents=True, exist_ok=True)
 
 handler = TimedRotatingFileHandler(
-    '../logs/bot.log', when='d', interval=1, backupCount=9
+    log_name, when='d', interval=1, backupCount=9
 )
 
 logging.basicConfig(

@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime, timedelta
 
 
 def check_subscribe(tack_name: str) -> object | None:
@@ -16,3 +17,11 @@ def find_vendor_code(text: str) -> str:
     index2 = text.find('\n', index1, index1 + 22)
 
     return text[index1:index2]
+
+
+def is_current_data(date: datetime) -> bool:
+    """Checking if the date is up to date (one day)"""
+    one_day_ago = datetime.now() - timedelta(days=1)
+    if date > one_day_ago:
+        return True
+    return False

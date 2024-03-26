@@ -3,23 +3,22 @@
 services:
   db:
     image: postgres:14
+    container_name: postgres
     ports:
       - "80:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
     volumes:
       - pg_data:/var/lib/postgresql/data
 
-  bot_wb:
-    # container_name: bot_wb
+  bot:
     build: .
     env_file: .env
-
     ports:
-      - "443:80"
-
+      - "443:443"
+    depends_on:
+      - db
     restart: on-failure
 
 volumes:
