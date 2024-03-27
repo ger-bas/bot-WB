@@ -9,6 +9,9 @@ Telegram bot for working with the Wildberries platform.
 - PostgreSQL
 - Docker
 
+### About
+...
+
 ### Deployment
 ...
 
