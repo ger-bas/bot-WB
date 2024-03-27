@@ -1,8 +1,8 @@
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
+from sqlalchemy.orm import sessionmaker
 
+from app.bot_requests.get_wb import get_product_wb
 from app.bot_utils.secondary_funcs import is_current_data
-from app.data_base.get_wb import get_product_wb
 from app.data_base.models import Product, engine
 
 session = sessionmaker(bind=engine)

@@ -6,7 +6,7 @@ log_name = 'logs/bot.log'
 Path(log_name).parent.mkdir(parents=True, exist_ok=True)
 
 handler = TimedRotatingFileHandler(
-    log_name, when='d', interval=1, backupCount=9
+    log_name, when='s', interval=1, backupCount=9
 )
 
 logging.basicConfig(

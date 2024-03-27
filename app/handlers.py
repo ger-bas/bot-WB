@@ -69,7 +69,7 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
             asyncio.create_task(
                 subscribe_process(callback.message), name=chat_id,
             )
-            logging.info({'activate': {
+            logging.info({'subscribe': {
                 'user': chat_id,
                 'vendor_code': find_vendor_code(callback.message.text),
                 }
@@ -78,7 +78,7 @@ async def subscribe_unsubscribe(callback: types.CallbackQuery) -> None:
     if button_text == 'Остановить уведомления':
         if task:
             task.cancel()
-            logging.info({'deactivate': {
+            logging.info({'unsubscribe': {
                 'user': chat_id,
                 'vendor_code': find_vendor_code(callback.message.text),
                 }

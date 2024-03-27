@@ -14,12 +14,15 @@ services:
 
   bot:
     build: .
+    container_name: bot-wb
     env_file: .env
     ports:
       - "443:443"
     depends_on:
       - db
     restart: on-failure
+    volumes:
+          - ./logs:/app/logs
 
 volumes:
   pg_data:
