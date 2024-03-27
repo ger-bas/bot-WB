@@ -1,5 +1,5 @@
 # bot-WB
-Telegram bot for working with the Wildberries platform.
+Telegram bot for working with the [Wildberries](https://www.wildberries.ru/) platform.
 
 ### Technologies
 - Python
@@ -10,7 +10,7 @@ Telegram bot for working with the Wildberries platform.
 - Docker
 
 ### Description
-The bot retrieves information about the product from the trading platform [wildberries.ru](https://www.wildberries.ru/).
+The bot retrieves information about the product from the trading platform.
 
 - Name:   ...
 - Vendor code:   ...
