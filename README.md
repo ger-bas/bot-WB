@@ -13,4 +13,4 @@ Telegram bot for working with the Wildberries platform.
 ...
 
 ### Author
-Alexander Startsev(https://github.com/aleksanderstartsev1984)
+[Alexander Startsev](https://github.com/aleksanderstartsev1984)
