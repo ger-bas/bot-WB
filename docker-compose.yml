@@ -13,7 +13,7 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   bot:
-    build: .
+    image: regast/bot-wb-bot
     container_name: bot-wb
     env_file: .env
     ports:
