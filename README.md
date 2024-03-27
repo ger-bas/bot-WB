@@ -27,6 +27,8 @@ Functional:
 
 "Get information from the database", sends the last five records from the database.
 
+Logging. Bot logs are written to the bot container in the logs/ directory. Configured to rotate log files by day. The logging period is ten days.
+
 ### Deployment
 ...
 
