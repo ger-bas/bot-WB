@@ -6,4 +6,3 @@ sudo sh ./get-docker.sh
 sudo apt-get install docker-compose-plugin
 sudo systemctl start docker
 sudo docker compose up -d
-# chmod o+x docker-compose.yml runprogect.sh
