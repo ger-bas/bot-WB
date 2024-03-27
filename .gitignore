@@ -151,3 +151,5 @@ migrations/
 my-project-run.sh
 save.sh
 z_test*
+.gitignore
+.dockerignore
