@@ -7,9 +7,16 @@ from sqlalchemy.ext.declarative import declarative_base
 POSTGRES_LOGIN = environ['POSTGRES_LOGIN']
 POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']
 Base = declarative_base()
+# engine = create_engine(
+#     f'postgresql+psycopg2://{POSTGRES_LOGIN}:{POSTGRES_PASSWORD}'
+#     '@postgres:5432/postgres',
+# )
+
+# dev
 engine = create_engine(
     f'postgresql+psycopg2://{POSTGRES_LOGIN}:{POSTGRES_PASSWORD}'
-    '@postgres:5432/postgres',
+    '@localhost/postgres',
+    # echo=True
 )
 
 
@@ -31,3 +38,4 @@ class Product(Base):
 
 
 Base.metadata.create_all(engine)
+# Base.metadata.drop_all(engine)

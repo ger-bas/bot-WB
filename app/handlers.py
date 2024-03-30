@@ -1,13 +1,26 @@
+# import asyncio
+
+# from aiogram import Dispatcher, F, types
+# from aiogram.filters import Command
+
+# from app.bot_utils.buttons import keyboard
+# from app.bot_utils.buttons_inline import kb_sub, kb_unsub
+# from app.bot_utils.config_logger import logging
+# from app.bot_utils.secondary_funcs import check_subscribe, find_vendor_code
+# from app.data_base.use_db import get_or_add_product, last_five_entries
+
+# dev
 import asyncio
 
 from aiogram import Dispatcher, F, types
 from aiogram.filters import Command
+from aiogram.enums import ParseMode
 
-from app.bot_utils.buttons import keyboard
-from app.bot_utils.buttons_inline import kb_sub, kb_unsub
-from app.bot_utils.config_logger import logging
-from app.bot_utils.secondary_funcs import check_subscribe, find_vendor_code
-from app.data_base.use_db import get_or_add_product, last_five_entries
+from bot_utils.buttons import keyboard
+from bot_utils.buttons_inline import kb_sub, kb_unsub
+from bot_utils.config_logger import logging
+from bot_utils.secondary_funcs import check_subscribe, find_vendor_code
+from data_base.use_db import get_or_add_product, last_five_entries
 
 dp = Dispatcher()
 TIME_OUT = 60 * 5
@@ -20,6 +33,14 @@ async def command_start_handler(message: types.Message) -> None:
     hello_message = ('Пришли мне артикул товара с площадки Wildberries '
                      'и я покажу тебе информацию о нём.')
     await message.answer(hello + hello_message, reply_markup=keyboard)
+
+
+@dp.message(Command('help'))
+async def command_help_handler(message: types.Message) -> None:
+    """Reaction to the "/help" command."""
+    with open('./bot_utils/bot_static/help_text.txt', 'r') as f:
+        help_text = f.read()
+    await message.answer(help_text, parse_mode=ParseMode.MARKDOWN)
 
 
 @dp.message(F.text.lower() == 'получить информацию из бд')
